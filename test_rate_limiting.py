@@ -19,7 +19,7 @@ def flush_redis():
         print("\n🗑️  Flushing Redis...")
         result = subprocess.run(
             ["docker", "compose", "exec", "-T", "redis", "redis-cli", "FLUSHALL"],
-            cwd="/home/ubuntu/rate-limiter",
+            cwd="/home/ubuntu/rate-limiter", # TODO: Update this to your path
             capture_output=True,
             text=True,
             timeout=5

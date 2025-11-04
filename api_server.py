@@ -78,8 +78,8 @@ def api_endpoint(resource_name):
 
     # Get or configure the resource
     if resource_key not in manager.resource_configs:
-        # Configure with default limits: 5 req/sec, 10 req/min
-        manager.configure_resource(resource_key, requests_per_second=5, requests_per_minute=10)
+        # Configure with default limits: None req/sec, 10 req/min
+        manager.configure_resource(resource_key, requests_per_second=None, requests_per_minute=10)
 
     try:
         # Check rate limit
