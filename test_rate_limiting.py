@@ -8,28 +8,9 @@ import requests
 import time
 import concurrent.futures
 import json
-import subprocess
 from collections import Counter
 
 API_URL = "http://localhost:5000/api/user"
-
-def flush_redis():
-    """Flush all Redis data before running tests."""
-    try:
-        print("\n🗑️  Flushing Redis...")
-        result = subprocess.run(
-            ["docker", "compose", "exec", "-T", "redis", "redis-cli", "FLUSHALL"],
-            cwd="/home/ubuntu/rate-limiter",
-            capture_output=True,
-            text=True,
-            timeout=5
-        )
-        if result.returncode == 0:
-            print("✓ Redis flushed successfully\n")
-        else:
-            print(f"⚠ Warning: Redis flush failed: {result.stderr}\n")
-    except Exception as e:
-        print(f"⚠ Warning: Could not flush Redis: {e}\n")
 
 def make_request(user_id, request_num):
     """Make a single request and return the status."""
@@ -50,9 +31,6 @@ def make_request(user_id, request_num):
 
 def test_sequential(user_id, num_requests=20):
     """Test with sequential requests."""
-    # Flush Redis before test
-    flush_redis()
-    
     print(f"\n{'='*60}")
     print(f"TEST 1: Sequential Requests")
     print(f"{'='*60}")
@@ -99,9 +77,6 @@ def test_sequential(user_id, num_requests=20):
 
 def test_parallel(user_id, num_requests=20):
     """Test with parallel requests."""
-    # Flush Redis before test
-    flush_redis()
-    
     print(f"\n{'='*60}")
     print(f"TEST 2: Parallel Requests")
     print(f"{'='*60}")
